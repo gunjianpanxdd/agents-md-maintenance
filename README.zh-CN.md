@@ -9,15 +9,50 @@
 - **探测规则文件格局**——仓库里有多个指令文件时，判断哪个才是唯一事实源（import 链、符号链接、优先级规则）
 - **三种模式**：`audit`（只输出审查结论，不写文件）/ `propose`（默认，零写权限——产出经过冲突检查的提案文件）/ `gated-direct`（需显式开启，每一步都确认）
 - **任何规则新增前强制执行冲突/重复检查**——合并 > 修改旧规则 > 新增，并记录检索轨迹
-- **按共识标准检查规则质量**——共识来源：agents.md 标准（6 万+ 仓库）、GitHub 对 2500+ agent 文件的官方分析、高星仓库（n8n、airflow、temporalio）
-- **沉淀实战教训**——数值约束的单位换算、✗/✓ 示例的长度成本、症状 chasing 检测、大块替换安全（"18,599→50 字符"事故）、根因定义的完成标准
+- **按共识检查清单把关规则质量**——命令优先、边界分层、具体优于口号、反模式清单
+- **沉淀实战教训**——来自真实生产维护循环的 8 条机制级教训（详见 `references/field-lessons.md`）：
+  - 加规则前必须先查冲突/重复，处置顺序：合并 > 改旧规则 > 新增
+  - 数值约束必须先换算成同一单位再比较——否则最宽松的一条默默生效，其余全部形同虚设
+  - ✗/✓ 示例有长度成本：模型模仿的是示例的形状，不只是规则本身
+  - 多条规则治同一个症状 ⇒ 病根在上游变量，修完上游还要删掉冗余的下游规则
+  - 根因才算完成：护栏（try/except、默认值）掩盖根因并静默腐化，不算修复
+  - 大块替换安全规程（"18,599→50 字符"事故）：替换不出常量边界、匹配串必须盖住原文尾部、替换后重读确认
+  - 最贵的规则死在会话边界：试出来的命令、踩过的禁区，当场写进规则文件
+  - 规则文件同时服务于 agent 和维护者：按"运维手册"标准组织
 - **自带 `audit_agents_md.py`**——机械检查：行数、缺失的核心章节、对照 package.json/Makefile/pyproject 的失效命令、死路径引用、超过 90 天的 "as of" 日期
 
-## 安装（WorkBuddy）
+## 安装
+
+<details open>
+<summary><b>WorkBuddy</b></summary>
 
 把整个文件夹复制到：
 - 用户级：`~/.workbuddy/skills/agents-md-maintenance/`
 - 项目级：`<仓库>/.workbuddy/skills/agents-md-maintenance/`
+
+</details>
+
+<details>
+<summary><b>Claude Code</b></summary>
+
+复制到 `~/.claude/skills/agents-md-maintenance/`（用户级）或 `<仓库>/.claude/skills/agents-md-maintenance/`（项目级）。`SKILL.md` 的 frontmatter 遵循 [agentskills.io](https://agentskills.io) 开放标准。
+
+</details>
+
+<details>
+<summary><b>Codex / Cursor / Gemini CLI / Aider 等原生 AGENTS.md 工具</b></summary>
+
+这些工具没有 skills 运行时，可以直接把 skill 内容当作知识库使用：在你的 `AGENTS.md` 里加一段指针——
+
+```markdown
+## Rule maintenance
+Before adding any rule to this file, follow references/best-practices.md checklist
+and run scripts/audit_agents_md.py.
+```
+
+也可以把 `references/best-practices.md` 和 `references/field-lessons.md` 的内容合并进你的 AGENTS.md（注意行数预算）。
+
+</details>
 
 ## 使用示例
 

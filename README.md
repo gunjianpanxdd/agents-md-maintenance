@@ -9,7 +9,7 @@ Instruction files fail in predictable ways: rules accrete and start contradictin
 - **Detects the rule-file landscape** — which file is the source of truth when a repo has several (import chains, symlinks, precedence rules)
 - **Three modes**: `audit` (findings only) / `propose` (default, zero write access — produces a conflict-checked proposal file) / `gated-direct` (opt-in, every step confirmed)
 - **Enforces a conflict/duplicate check before any rule is added** — merge > modify old rule > add new, with a recorded search trail
-- **Checks rule quality** against the consensus distilled from the agents.md standard (60k+ repos), GitHub's analysis of 2,500+ agent files, and high-star repos (n8n, airflow, temporalio)
+- **Checks rule quality** against a community-consensus checklist (commands first, tiered boundaries, specific over aspirational, anti-patterns)
 - **Ships hard-won field lessons** — numeric-constraint unit conversion, the length cost of ✗/✓ examples, symptom-chasing detection, big-block replacement safety (the "18,599→50 characters" incident), root-cause definitions of done
 - **Includes `audit_agents_md.py`** — mechanical lint: line count, missing core sections, stale commands vs package.json/Makefile/pyproject, dead path references, 90-day-old "as of" dates
 
