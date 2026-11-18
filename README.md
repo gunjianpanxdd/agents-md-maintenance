@@ -77,3 +77,7 @@ assets/
 ## License
 
 MIT
+
+## Docs
+
+- [中文说明 (Chinese README)](README.zh-CN.md)
